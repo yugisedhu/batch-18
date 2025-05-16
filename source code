@@ -1,0 +1,42 @@
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+
+# Load dataset
+df = pd.read_csv("movie_recommendations.csv")
+
+# Select relevant features for clustering
+features = [
+    "Age", "Gender", "Location", "FavoriteGenre", "WatchFrequency", "PreferredLanguage"
+]
+
+# Encode categorical variables
+encoded_df = df[features].copy()
+label_encoders = {}
+for col in encoded_df.select_dtypes(include=['object']).columns:
+    le = LabelEncoder()
+    encoded_df[col] = le.fit_transform(encoded_df[col])
+    label_encoders[col] = le
+
+# Cluster users based on their preferences
+kmeans = KMeans(n_clusters=2, random_state=42)
+df['Cluster'] = kmeans.fit_predict(encoded_df)
+
+# Add recommendations based on cluster membership
+cluster_recommendations = {
+    0: ["The Dark Knight", "Blade Runner 2049"],
+    1: ["La La Land", "The Grand Budapest Hotel"]
+}
+df['AI_Recommended1'] = df['Cluster'].map(lambda x: cluster_recommendations[x][0])
+df['AI_Recommended2'] = df['Cluster'].map(lambda x: cluster_recommendations[x][1])
+
+# Save enhanced dataframe with AI recommendations
+df.to_csv("enhanced_movie_recommendations.csv", index=False)
+
+# Visualize clusters
+plt.scatter(encoded_df['Age'], encoded_df['FavoriteGenre'], c=df['Cluster'], cmap='viridis')
+plt.xlabel('Age')
+plt.ylabel('FavoriteGenre (encoded)')
+plt.title('User Clusters based on Preferences')
+plt.show()
