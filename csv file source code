@@ -1,0 +1,28 @@
+import pandas as pd
+
+# Create the data
+data = {
+    "UserID": [1, 2, 3, 4],
+    "UserName": ["Alice", "Bob", "Charlie", "Diana"],
+    "Age": [28, 35, 22, 41],
+    "Gender": ["Female", "Male", "Non-binary", "Female"],
+    "Location": ["New York", "San Francisco", "Chicago", "Los Angeles"],
+    "FavoriteGenre": ["Sci-Fi", "Action", "Comedy", "Drama"],
+    "RecentWatch": ["Inception", "John Wick", "Superbad", "The Godfather"],
+    "WatchFrequency": ["Daily", "Weekly", "Monthly", "Weekly"],
+    "PreferredLanguage": ["English", "English", "English", "Spanish"],
+    "RecommendedMovie1": ["Interstellar", "Mad Max: Fury Road", "The Hangover", "The Shawshank Redemption"],
+    "RecommendedMovie2": ["The Matrix", "Die Hard", "21 Jump Street", "Forrest Gump"],
+    "RecommendationScore": [95, 89, 78, 92],
+    "MatchAlgorithm": ["AI-Match v1.2"] * 4,
+    "SubscriptionType": ["Premium", "Standard", "Basic", "Premium"],
+    "LastLogin": ["2025-04-28", "2025-04-27", "2025-04-25", "2025-04-26"]
+}
+
+# Convert to DataFrame
+df = pd.DataFrame(data)
+
+# Save to CSV
+df.to_csv("movie_recommendations.csv", index=False)
+
+print("CSV file 'movie_recommendations.csv' has been created.")
